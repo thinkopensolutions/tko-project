@@ -38,17 +38,5 @@
                 </xpath>
             </field>
         </record>
-
-        <record id="task_action_line_tree_view" model="ir.ui.view">
-            <field name="name">Action Line Tree View</field>
-            <field name="model">project.task.action.line</field>
-            <field name="inherit_id" ref="tko_project_task_actions.task_action_line_tree_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='set_done']" position="before">
-                    <button name="self_assign" type="object" icon="fa-hand-rock-o" attrs="{'invisible':[('user_id','!=',False)]}"/>
-                </xpath>
-            </field>
-        </record>
-
     </data>
 </openerp>
