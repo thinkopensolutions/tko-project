@@ -1,3 +1,6 @@
+# tko-project
+TKO Project Addons
+=======
 ![TKO](https://tkobr.tkobr.com/website/image/ir.attachment/50170_af65c50/datas)
 
 Project Addons for Odoo
@@ -83,3 +86,4 @@ http://backstroke.us/
 
 
 [![Support CRM Addons](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/thinkopensolutions/)
+
