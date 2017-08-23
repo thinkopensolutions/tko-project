@@ -48,7 +48,8 @@
                         <group>
                             <field name="name"/>
                             <field name="expected_type" widget="radio"/>
-                            <field name="expected_date_field_id" domain="[('model_id','=','project.task'),('ttype','=','date')]"
+                            <field name="expected_date_field_id"
+                                   domain="[('model_id','=','project.task'),('ttype','=','date')]"
                                    attrs="{'invisible': [('expected_type', '=', 't')], 'required': [('expected_type', '=', 'd')]}"/>
                             <field name="expected_duration"
                                    attrs="{'invisible': [('expected_type', '=', 'd')], 'required': [('expected_type', '=', 't')]}"/>
@@ -189,9 +190,11 @@
                                 </div>
                             </group>
                         </group>
-                        <group string="Task Description">
-                            <field name="task_description" nolabel="1"/>
-                        </group>
+                        <notebook>
+                            <page name="task_description" string="Task Description">
+                                <field name="task_description" nolabel="1"/>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
