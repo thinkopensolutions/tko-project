@@ -29,7 +29,7 @@ class Project(models.Model):
 
     estimated_time_limit = fields.Float(string="Estimated Time Limit")
     estimated_time = fields.Float(compute='get_estimated_time_task',string="Estimated Time", store=True)
-    
+
     @api.depends('task_ids.estimated_time')
     @api.multi
     def get_estimated_time_task(self):
@@ -56,9 +56,11 @@ class ProjectTask(models.Model):
 
     @api.multi
     def write(self, vals):
-        res =  super(ProjectTask, self).write(vals)
-        if (self.project_id.estimated_time > self.project_id.estimated_time_limit) and (self.project_id.estimated_time_limit > 0.0):
-                self.project_id.state = 'pending'
+        res = super(ProjectTask, self).write(vals)
+        for record in self:
+            if (record.project_id.estimated_time > record.project_id.estimated_time_limit) and (
+                record.project_id.estimated_time_limit > 0.0):
+                record.project_id.state = 'pending'
         return res
 
 class ProjectTaskActions(models.Model):
@@ -73,7 +75,7 @@ class ProjectTaskActionsLine(models.Model):
     @api.onchange('action_id')
     def onchange_action_id(self):
         self.estimated_time = self.action_id.estimated_time
-        
+
     @api.multi
     def calculate_spent_time(self):
         for action_line in self:
@@ -93,7 +95,7 @@ class ProjectTaskActionsLine(models.Model):
     def calculate_remaining_time(self):
         for action_line in self:
             action_line.remaining_time = action_line.estimated_time - action_line.spent_time
-            
+
     estimated_time = fields.Float(string="Estimated Time")
     spent_time = fields.Float(compute='calculate_spent_time', string="Time Spent")
     remaining_time = fields.Float(compute='calculate_remaining_time', string="Remaining Time")
@@ -143,7 +145,7 @@ class ProjectTaskActionsLine(models.Model):
                 'type': 'ir.actions.act_window',
                 'context': self._context,
                 'target': 'new'
-            }        
+            }
 
 class Timesheet_time(models.Model):
     _name = 'timesheet.time'
