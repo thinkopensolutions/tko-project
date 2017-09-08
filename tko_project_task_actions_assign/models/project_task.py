@@ -26,60 +26,99 @@ from odoo import models, api, fields
 from openerp.exceptions import ValidationError
 
 class ProjectTaskActions(models.Model):
-	_inherit = 'project.task.action'
+    _inherit = 'project.task.action'
 
-	user_id = fields.Char(string="Assigned To")
+    user_id = fields.Char(string="Assigned To")
 
 
 class ProjectTaskActionsLine(models.Model):
-	_inherit = 'project.task.action.line'
+    _inherit = 'project.task.action.line'
 
-	user_id = fields.Many2one('res.users',string="Assigned To", compute='onchange_action', store=True)
-	state = fields.Selection(selection_add=[('n', u'New')])
+    user_id = fields.Many2one('res.users',string="Assigned To", compute='onchange_action', store=True, readonly=False)
+    state = fields.Selection(selection_add=[('n', u'New')])
 
-	@api.one
-	def self_assign(self):
-		self.user_id = self.env.uid
+    @api.one
+    def self_assign(self):
+        self.user_id = self.env.uid
 
-	@api.one
-	@api.depends('action_id')
-	def onchange_action(self):
-		res = super(ProjectTaskActionsLine, self).onchange_action()
-		flag =False
-		user_id = False
-		try:
-			user_id = self and self.task_id and self.task_id.project_id and self.action_id and self.action_id.user_id and eval('self.'+self.action_id.user_id) or False
-		except Exception as e:
-			flag = True
-		if (user_id and user_id._name != 'res.users') or flag:
-			raise ValidationError("Please set proper user id in " + self.action_id.name)
-		self.user_id = user_id and user_id.id or False
+    @api.one
+    @api.depends('action_id')
+    def onchange_action(self):
+        res = super(ProjectTaskActionsLine, self).onchange_action()
+        context =self._context
+        if context.get('user_id') and context.get('no_update'):
+            user_id = context.get('user_id')
+        else:
+            flag =False
+            user_id = False
+            if self.user_id:
+                user_id = self.user_id
+            else:
+                try:
+                    user_id = self and self.task_id and self.task_id.project_id and self.action_id and self.action_id.user_id and eval('self.'+self.action_id.user_id) or False
+                except Exception as e:
+                    flag = True
+                if (user_id and user_id._name != 'res.users') or flag:
+                    raise ValidationError("Please set proper user id in " + self.action_id.name)
+                user_id = user_id and user_id.id or False
+        self.user_id = user_id
+
+    @api.model
+    def create(self, vals):
+        action_obj = self.env['project.task.action']
+        if vals.get('action_id'):
+            if vals.get('user_id'):
+                return super(ProjectTaskActionsLine, self.with_context(no_update=True, user_id=vals.get('user_id'))).create(vals)
+            else:
+                action_id = action_obj.browse(vals.get('action_id'))
+                user_id = action_id.user_id and eval('self.'+action_id.user_id) or False
+                if (user_id and user_id._name != 'res.users'):
+                    raise ValidationError("Please set proper user id in " + self.action_id.name)
+                user_id = user_id and user_id.id or False
+                vals.update({'user_id':user_id})
+        return super(ProjectTaskActionsLine, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        action_obj = self.env['project.task.action']
+        if 'action_id' in vals:
+            if 'user_id' in vals:
+                return super(ProjectTaskActionsLine, self).write(vals)
+            else:
+                action_id = action_obj.browse(vals.get('action_id'))
+                user_id = action_id.user_id and eval('self.'+action_id.user_id) or False
+                if (user_id and user_id._name != 'res.users'):
+                    raise ValidationError("Please set proper user id in " + self.action_id.name)
+                user_id = user_id and user_id.id or False
+                vals.update({'user_id':user_id})
+        return super(ProjectTaskActionsLine, self).write(vals)
 
 
-	@api.multi
-	def set_done(self):
-		if self.user_id.id == self._uid:
-			return super(ProjectTaskActionsLine , self).set_done()
-		else:
-			raise ValidationError(u"You can conclude only your action lines!")
 
-	def set_cancel(self):
-		if self.user_id.id == self._uid:
-			return super(ProjectTaskActionsLine , self).set_cancel()
-		else:
-			raise ValidationError(u"You can cancel only your action lines!")
+    @api.multi
+    def set_done(self):
+        if self.user_id.id == self._uid:
+            return super(ProjectTaskActionsLine , self).set_done()
+        else:
+            raise ValidationError(u"You can conclude only your action lines!")
+
+    def set_cancel(self):
+        if self.user_id.id == self._uid:
+            return super(ProjectTaskActionsLine , self).set_cancel()
+        else:
+            raise ValidationError(u"You can cancel only your action lines!")
 
 
 class ProjectTask(models.Model):
-	_inherit = 'project.task'
+    _inherit = 'project.task'
 
-	user_ids = fields.Many2many('res.users',string='Team',compute='get_users')
+    user_ids = fields.Many2many('res.users',string='Team',compute='get_users')
 
-	@api.multi
-	def get_users(self):
-		for task in self:
-			user_ids = []
-			for action_line in task.action_line_ids:
-				if action_line.user_id:
-					user_ids.append(action_line.user_id.id)
-			task.user_ids = [(6, 0 , list(set(user_ids)))]
+    @api.multi
+    def get_users(self):
+        for task in self:
+            user_ids = []
+            for action_line in task.action_line_ids:
+                if action_line.user_id:
+                    user_ids.append(action_line.user_id.id)
+            task.user_ids = [(6, 0 , list(set(user_ids)))]
