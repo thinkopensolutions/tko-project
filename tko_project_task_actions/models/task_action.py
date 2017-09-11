@@ -25,6 +25,7 @@
 from odoo import models, api, fields
 from datetime import datetime
 from  dateutil.relativedelta import relativedelta
+from pandas.tseries.offsets import BDay
 from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 import time
@@ -40,7 +41,7 @@ class ProjectTaskActions(models.Model):
                                      default='d', string=u'Date Condition')
     expected_date_field_id = fields.Many2one('ir.model.fields', 'Date Field')
     expected_duration = fields.Integer(u'Expected Time', default=1)
-    expected_duration_unit = fields.Selection([('d', 'Day'), ('w', 'Week'), ('m', 'Month'), ('y', 'Year')],
+    expected_duration_unit = fields.Selection([('d', 'Day'), ('bd','Business Days'),('w', 'Week'), ('m', 'Month'), ('y', 'Year')],
                                               default='d', required=True, string=u'Expected Time Unit')
     done_filter_id = fields.Many2one('ir.filters', 'Done Filter')
     done_filter_warning_message = fields.Text("Done Warning Message")
@@ -124,6 +125,9 @@ class ProjectTaskActionsLine(models.Model):
                 days = weeks = months = years = 0
                 if self.action_id.expected_duration_unit == 'd':
                     days = self.action_id.expected_duration
+                if self.action_id.expected_duration_unit == 'bd':
+                    # days between n buessness days and today
+                    days = ((datetime.today() + BDay(self.action_id.expected_duration)) - datetime.today()).days + 1
                 if self.action_id.expected_duration_unit == 'w':
                     weeks = self.action_id.expected_duration
                 if self.action_id.expected_duration_unit == 'm':
