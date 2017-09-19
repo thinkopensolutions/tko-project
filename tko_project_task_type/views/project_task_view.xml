@@ -7,7 +7,8 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
                 <field name="user_id" position="before">
-                    <field name="task_type_ids" widget="many2many_tags"/>
+                    <field name="task_type_ids" domain = "[('id','in',task_type_ids_domain[0][2])]" widget="many2many_tags"/>
+                    <field name="task_type_ids_domain" widget="many2many_tags" invisible="1"/>
                 </field>
             </field>
         </record>
