@@ -28,19 +28,6 @@ class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
 
 
-
-    # @api.model
-    # def create(self, vals):
-    #     res = super(AccountAnalyticAccount, self).create(vals)
-    #     project = self.env['project.project'].search([('analytic_account_id', '=', res.id)], limit=1)
-    #     if len(project) and record.parent_id:
-    #         parent_project = self.env['project.project'].search([('analytic_account_id', '=', record.parent_id.id)],
-    #                                                             limit=1)
-    #         if len(parent_project):
-    #             project.parent_id = parent_project.id
-    #
-    #     return res
-
     @api.multi
     def write(self, vals):
         for record in self:
@@ -48,7 +35,9 @@ class AccountAnalyticAccount(models.Model):
             project = self.env['project.project'].search([('analytic_account_id','=',record.id)], limit = 1)
             if len(project) and record.parent_id:
                 parent_project = self.env['project.project'].search([('analytic_account_id', '=', record.parent_id.id)], limit=1)
-                if len(parent_project):
-                    project.parent_id = parent_project.id
+
+                project.parent_id = parent_project and parent_project.id or False
+
+
         return res
 

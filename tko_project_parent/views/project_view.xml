@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="parent_id"/>
-                <field name="analytic_account_id"/>
             </field>
 
         </field>
