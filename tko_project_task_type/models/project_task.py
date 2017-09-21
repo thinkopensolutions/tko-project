@@ -27,6 +27,25 @@ from datetime import datetime
 from  dateutil.relativedelta import relativedelta
 
 
+class ProjectProject(models.Model):
+    _inherit = 'project.project'
+
+    task_type_ids_domain = fields.Many2many('task.type', 'task_type_project_rel_domain', 'project_id', 'task_type_id',
+                                            string='Task Types', compute='_get_task_type_ids')
+
+    @api.one
+    @api.depends('parent_id')
+    def _get_task_type_ids(self):
+        if self.parent_id and self.parent_id.task_type_ids:
+            self.task_type_ids_domain = [(6, 0, self.parent_id.task_type_ids.ids)]
+        else:
+            self.task_type_ids_domain = [(6, 0, self.env['task.type'].search([]).ids)]
+
+    @api.onchange('parent_id')
+    def onchange_parent_id(self):
+        if self.parent_id:
+            self.task_type_ids = [(6, 0, self.parent_id.task_type_ids.ids)]
+
 
 class task_type(models.Model):
     _name = 'task.type'
@@ -102,7 +121,8 @@ class project_task(models.Model):
         self.task_type_id = False
         res = super(project_task, self)._onchange_project()
         task_type_ids = self.project_id and self.project_id.task_type_ids and self.project_id.task_type_ids.ids or []
-        return {'domain':{'task_type_id':[('id','in',task_type_ids)]}}
+        return {'domain': {'task_type_id': [('id', 'in', task_type_ids)]}}
+
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'

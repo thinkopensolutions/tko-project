@@ -28,7 +28,9 @@ from openerp.exceptions import ValidationError
 class ProjectTaskActions(models.Model):
 	_inherit = 'project.task.action'
 
+	assign_type = fields.Selection([('e','Expression'),('u',u'Fixed User')], default='e', string=u'Assigned Type')
 	user_id = fields.Char(string="Assigned To")
+	assigned_to = fields.Many2one('res.users', string="Assigned To")
 
 
 class ProjectTaskActionsLine(models.Model):
@@ -48,11 +50,15 @@ class ProjectTaskActionsLine(models.Model):
 		flag =False
 		user_id = False
 		try:
-			user_id = self and self.task_id and self.task_id.project_id and self.action_id and self.action_id.user_id and eval('self.'+self.action_id.user_id) or False
+			if self.action_id.assign_type == 'e':
+				user_id = self and self.task_id and self.task_id.project_id and self.action_id and self.action_id.user_id and eval('self.'+self.action_id.user_id) or False
+			else:
+				user_id = self.assigned_to
 		except Exception as e:
 			flag = True
-		if (user_id and user_id._name != 'res.users') or flag:
-			raise ValidationError("Please set proper user id in " + self.action_id.name)
+		if self.action_id.assign_type == 'e':
+			if (user_id and user_id._name != 'res.users') or flag:
+				raise ValidationError("Please set proper user id in " + self.action_id.name)
 		self.user_id = user_id and user_id.id or False
 
 

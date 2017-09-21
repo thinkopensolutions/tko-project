@@ -36,11 +36,21 @@ class ProjectTaskActionLine(models.Model):
         else:
             raise Warning(u"User %s doesn't belong to team %s or it's preant teams" %(self.env.user.name, self.team_id.name))
 
+    # use separate method to get team_id
+    # so that other modules which do not have fixed team
+    # can compute team using this method
+    def get_team_id(self):
+        """
+        Inherit this method if you want to use another team other than set in team_id field
+        :return: database id of the team or False
+        """
+        return self.action_id and self.action_id.team_id and self.action_id.team_id.id or False
+
     @api.one
     @api.depends('action_id')
     def onchange_action(self):
         super(ProjectTaskActionLine, self).onchange_action()
-        team_id = self.action_id and self.action_id.team_id and self.action_id.team_id.id or False
+        team_id = self.get_team_id()
         if not team_id:
             team_id = self.task_id and self.task_id.task_type_id and self.task_id.task_type_id.team_id \
                       and self.task_id.task_type_id.team_id.id or False

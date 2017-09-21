@@ -34,7 +34,10 @@
             <field name="inherit_id" ref="tko_project_task_actions.task_action_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='expected_duration_unit']" position="after">
-                    <field name="user_id"/>
+                    <field name="assign_type" widget="radio"/>
+                    <field name="assigned_to" attrs="{'invisible': [('assign_type','=','e')]}"/>
+                    <field name="user_id" attrs="{'invisible': [('assign_type','=','u')]}"/>
+
                 </xpath>
             </field>
         </record>
