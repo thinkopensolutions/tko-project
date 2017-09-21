@@ -14,13 +14,14 @@
     'installable': True,
     'auto_install': False,
     'depends': [
-                'base',
-                'project',
+        'base',
+        'project',
+        'tko_project_parent'
     ],
     'external_dependencies': {
-                                'python': [],
-                                'bin': [],
-                                },
+        'python': [],
+        'bin': [],
+    },
     'init_xml': [],
     'update_xml': [],
     'css': [],
