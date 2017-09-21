@@ -30,10 +30,11 @@ class ProjectTaskActionLine(models.Model):
 
     @api.one
     def self_assign(self):
-        if self.env.uid in self.team_id.user_ids.ids:
+        users = self.team_id.get_team_users()
+        if self.env.uid in users:
             self.user_id = self.env.uid
         else:
-            raise Warning(u"User %s doesn't belong to team %s." %(self.env.user.name, self.team_id.name))
+            raise Warning(u"User %s doesn't belong to team %s or it's preant teams" %(self.env.user.name, self.team_id.name))
 
     @api.one
     @api.depends('action_id')
