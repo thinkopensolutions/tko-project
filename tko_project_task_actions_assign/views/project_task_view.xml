@@ -45,7 +45,10 @@
             <field name="model">project.task.action.line</field>
             <field name="inherit_id" ref="tko_project_task_actions.task_action_line_tree_view"/>
             <field name="arch" type="xml">
+
                 <button name="set_done" position="before">
+                    <field name="user_id"/>
+                    <!--<field name="team_id"/>-->
                     <button name="self_assign" type="object" icon="fa-hand-rock-o" attrs="{'invisible':[('user_id','!=',False)]}"/>
                 </button>
             </field>

@@ -30,7 +30,7 @@ class ProjectTaskActionLine(models.Model):
 
     @api.one
     def self_assign(self):
-        users = self.team_id.self.get_team_users()
+        users = self.team_id.get_team_users()
         if self.env.uid in users:
             self.user_id = self.env.uid
         else:
