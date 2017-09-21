@@ -7,6 +7,7 @@
                 <sheet>
                     <group colspan="4">
                         <field name="name"/>
+                        <field name="manager_id"/>
                         <field name="type"/>
 
                     </group>
