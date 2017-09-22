@@ -15,6 +15,7 @@
 
     'auto_install': False,
     'depends': [
+        'tko_project_task_type',
         'tko_project_task_actions',
     ],
     'external_dependencies': {
