@@ -16,6 +16,7 @@
     'depends': [
                 'base',
                 'project',
+                'web_widget_form_reload',
     ],
     'external_dependencies': {
                                 'python': [],
