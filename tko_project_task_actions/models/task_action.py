@@ -228,3 +228,6 @@ class ProjectTaskActionsLine(models.Model):
                 new_context.update({'active_id': self.id, 'active_model': 'project.task.action.line'})
             recs = self.action_id.cancel_server_action_id.with_context(new_context)
             recs.run()
+        return {'type': 'ir.actions.client',
+                'tag': 'form-reload'
+                }
