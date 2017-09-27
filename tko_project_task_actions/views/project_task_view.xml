@@ -51,6 +51,9 @@
                             <field name="expected_date_field_id"
                                    domain="[('model_id','=','project.task'),('ttype','=','date')]"
                                    attrs="{'invisible': [('expected_type', '=', 't')], 'required': [('expected_type', '=', 'd')]}"/>
+                            <field name="delay_expected_date_field_id"
+                                   domain="[('model_id','=','project.task'),('ttype','=','date')]"
+                                   attrs="{'invisible': [('expected_type', '=', 't')]}"/>
                             <field name="expected_duration"
                                    attrs="{'invisible': [('expected_type', '=', 'd')], 'required': [('expected_type', '=', 't')]}"/>
                             <field name="expected_duration_unit"

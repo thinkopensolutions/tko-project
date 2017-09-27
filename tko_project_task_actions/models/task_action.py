@@ -40,6 +40,7 @@ class ProjectTaskActions(models.Model):
     expected_type = fields.Selection([('t', 'Time'), ('d', 'Date Field')],
                                      default='d', string=u'Date Condition')
     expected_date_field_id = fields.Many2one('ir.model.fields', 'Date Field')
+    delay_expected_date_field_id = fields.Integer(u'Delay')
     expected_duration = fields.Integer(u'Expected Time', default=1)
     expected_duration_unit = fields.Selection([('d', 'Day'), ('bd','Business Days'),('w', 'Week'), ('m', 'Month'), ('y', 'Year')],
                                               default='d', required=True, string=u'Expected Time Unit')
@@ -140,7 +141,16 @@ class ProjectTaskActionsLine(models.Model):
             expected_date = False
             if self.action_id.expected_date_field_id:
                 expected_date = getattr(self.task_id, str(self.action_id.expected_date_field_id.name))
-            self.expected_date = expected_date or datetime.today()
+                if expected_date:
+                    expected_date = datetime.strptime(expected_date,DT)
+                else:
+                    expected_date = datetime.today()
+            delay = 0
+            if self.action_id.delay_expected_date_field_id:
+                delay = self.action_id.delay_expected_date_field_id
+            if expected_date:
+                expected_date =  expected_date + relativedelta(days=delay)
+            self.expected_date = expected_date
 
     # Validate action done filter
     def validate_action_done_filter(self):
@@ -202,12 +212,9 @@ class ProjectTaskActionsLine(models.Model):
                 new_context.update({'active_id': self.id, 'active_model': 'project.task.action.line'})
             recs = self.action_id.done_server_action_id.with_context(new_context)
             recs.run()
-        return {
-            'type': 'ir.actions.client',
-            'name': 'Reload View',
-            'tag': 'reload',
-        }
-
+        return {'type': 'ir.actions.client',
+                'tag': 'form-reload'
+                }
     def set_cancel(self):
         if self.action_id.cancel_filter_id:
             # validate filter here
@@ -221,3 +228,6 @@ class ProjectTaskActionsLine(models.Model):
                 new_context.update({'active_id': self.id, 'active_model': 'project.task.action.line'})
             recs = self.action_id.cancel_server_action_id.with_context(new_context)
             recs.run()
+        return {'type': 'ir.actions.client',
+                'tag': 'form-reload'
+                }

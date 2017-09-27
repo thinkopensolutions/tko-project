@@ -132,6 +132,10 @@ class ProjectTaskActionsLine(models.Model):
                 'context': self._context,
                 'target': 'new'
             }
+        else:
+            return {'type': 'ir.actions.client',
+                    'tag': 'form-reload'
+                    }
 
     def set_cancel(self):
         super(ProjectTaskActionsLine, self).set_cancel()
