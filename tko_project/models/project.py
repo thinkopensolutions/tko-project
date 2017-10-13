@@ -61,7 +61,8 @@ class ProjectTask(models.Model):
         project_ids = []
         if self.partner_id:
             if self.partner_id.parent_id:
-                partners = self.partner_id.parent_id.child_ids.ids
+                # partners = self.partner_id.parent_id.child_ids.ids
+                partners = self.env['res.partner'].search([('parent_id', '=', self.partner_id.parent_id.id)]).ids
                 partners.append(self.partner_id.parent_id.id)
             else:
                 partners = self.child_ids.ids
