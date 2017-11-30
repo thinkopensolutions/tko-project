@@ -36,7 +36,8 @@ class ProjectTaskActions(models.Model):
 class ProjectTaskActionsLine(models.Model):
 	_inherit = 'project.task.action.line'
 
-	user_id = fields.Many2one('res.users',string="Assigned To", compute='onchange_action', store=True)
+	assigned_to = fields.Many2one('res.users', string="Assigned To")
+	user_id = fields.Many2one('res.users',related='assigned_to',string='Assigned To')
 	state = fields.Selection(selection_add=[('n', u'New')])
 
 	@api.one
