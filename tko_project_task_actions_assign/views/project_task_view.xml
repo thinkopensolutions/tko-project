@@ -50,8 +50,7 @@
             <field name="arch" type="xml">
 
                 <button name="set_done" position="before">
-                    <field name="assigned_to"/>
-                    <field name="user_id" invisible="1"/>
+                    <field name="user_id"/>
                     <!--<field name="team_id"/>-->
                     <button name="self_assign" type="object" icon="fa-hand-rock-o" attrs="{'invisible':[('user_id','!=',False)]}"/>
                 </button>

@@ -54,7 +54,6 @@ class ProjectTaskActions(models.Model):
                                               help=u'This server action will be executed when Actions is set to cancel')
 
 
-
 class ProjectTaskActionsLine(models.Model):
     _name = 'project.task.action.line'
 
