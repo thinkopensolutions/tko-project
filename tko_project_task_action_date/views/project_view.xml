@@ -1,0 +1,33 @@
+<openerp>
+    <data>
+
+        <record id="tko_project_task_actions_actions_inherit" model="ir.ui.view">
+            <field name="name">project.task.action.form</field>
+            <field name="model">project.task.action</field>
+            <field name="inherit_id" ref="tko_project_task_actions.task_action_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='expected_duration_unit']" position="after">
+                    <field name="edit_expected_date"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="tko_project_task_actions_task_inherit" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="tko_project_task_actions.view_task_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='action_line_ids']//field[@name='expected_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='action_line_ids']//field[@name='expected_date']" position="after">
+                    <field name="edit_expected_date" invisible="1"/>
+                    <field name="user_expected_date" attrs="{'readonly' :[('edit_expected_date','!=',True)] }"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</openerp>
