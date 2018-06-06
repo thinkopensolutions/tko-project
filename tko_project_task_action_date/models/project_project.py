@@ -22,7 +22,7 @@
 #
 ##############################################################################
 
-from odoo import models, api, fields
+from odoo import models, api, fields, _
 from odoo.exceptions import UserError
 from datetime import datetime
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DT
@@ -49,4 +49,4 @@ class ProjectTaskActonLine(models.Model):
         for line in self:
             if line.user_expected_date and line.task_id.date_deadline:
                 if datetime.strptime(line.user_expected_date, DT) > datetime.strptime(line.task_id.date_deadline, DT):
-                    raise UserError("Expected date %s must be less than date deadline!" % line.user_expected_date)
+                    raise UserError(_("Expected date %s must be less than date deadline!" % (datetime.strftime(datetime.strptime(line.task_id.date_deadline, DT).date(), "%d-%m-%Y")) ))
