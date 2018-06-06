@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+pro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-06 17:07+0000\n"
-"PO-Revision-Date: 2018-06-06 17:07+0000\n"
+"POT-Creation-Date: 2018-06-06 17:22+0000\n"
+"PO-Revision-Date: 2018-06-06 17:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,12 @@ msgstr "Data Esperada Editável"
 #: model:ir.model.fields,field_description:tko_project_task_action_date.field_project_task_action_line_user_expected_date
 msgid "Expected Date"
 msgstr "Data Prevista"
+
+#. module: tko_project_task_action_date
+#: code:addons/tko_project_task_action_date/models/project_project.py:52
+#, python-format
+msgid "Expected date %s must be less than date deadline!"
+msgstr "Data esperada %s na ação deve ser menos que o prazo final da tarefa!"
 
 #. module: tko_project_task_action_date
 #: model:ir.model,name:tko_project_task_action_date.model_project_task_action
