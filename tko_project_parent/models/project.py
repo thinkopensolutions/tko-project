@@ -40,7 +40,6 @@ class ProjectProject(models.Model):
 
     @api.multi
     def write(self, vals):
-        res = False 
         for record in self:
             res = super(ProjectProject, record).write(vals)
             if record.analytic_account_id and record.parent_id:
