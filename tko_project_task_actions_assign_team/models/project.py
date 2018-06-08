@@ -40,7 +40,6 @@ class ProjectTaskActionLine(models.Model):
     def get_authorized_users(self):
 
         domain = self.project_id.user_id_domain
-        print "self..................", domain, self.project_id, self.task_id, self.task_id.name
         if domain == 'nr' or not self.project_id:
             users = self.env['res.users'].search([])
         elif domain == 'pt':
@@ -49,8 +48,6 @@ class ProjectTaskActionLine(models.Model):
             users = self.action_id.team_id.user_ids
         else:
             users = self.task_id.user_ids
-
-        print "users.........................", users.ids
         self.user_ids = [(6, 0, users.ids)]
 
     @api.one
