@@ -80,13 +80,13 @@ class ProjectTaskActionsLine(models.Model):
 class ProjectTask(models.Model):
 	_inherit = 'project.task'
 
-	user_ids = fields.Many2many('res.users','project_task_team_rel', 'task_id', 'team_id', string='Team')
+	user_ids = fields.Many2many('res.users',string='Team',compute='get_users')
 
-	# @api.multi
-	# def get_users(self):
-	# 	for task in self:
-	# 		user_ids = []
-	# 		for action_line in task.action_line_ids:
-	# 			if action_line.user_id:
-	# 				user_ids.append(action_line.user_id.id)
-	# 		task.user_ids = [(6, 0 , list(set(user_ids)))]
+	@api.multi
+	def get_users(self):
+		for task in self:
+			user_ids = []
+			for action_line in task.action_line_ids:
+				if action_line.user_id:
+					user_ids.append(action_line.user_id.id)
+			task.user_ids = [(6, 0 , list(set(user_ids)))]
