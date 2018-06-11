@@ -75,7 +75,7 @@ msgstr "Nome"
 #: selection:project.project,user_id_domain:0
 #, python-format
 msgid "No Restriction"
-msgstr "No Restriction"
+msgstr "Sem restrição"
 
 #. module: tko_project_task_actions_assign_team
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_team_parent_id
@@ -127,22 +127,22 @@ msgstr "Tipo"
 #: code:addons/tko_project_task_actions_assign_team/models/project.py:12
 #: selection:project.project,user_id_domain:0
 #, python-format
-msgid "User's from Action Line Team"
-msgstr "User's from Action Line Team"
+msgid "User's from Action's Team"
+msgstr "Time das ações"
 
 #. module: tko_project_task_actions_assign_team
 #: code:addons/tko_project_task_actions_assign_team/models/project.py:11
 #: selection:project.project,user_id_domain:0
 #, python-format
 msgid "User's from Project Team"
-msgstr "User's from Project Team"
+msgstr "Time do projeto"
 
 #. module: tko_project_task_actions_assign_team
 #: code:addons/tko_project_task_actions_assign_team/models/project.py:13
 #: selection:project.project,user_id_domain:0
 #, python-format
 msgid "User's from Task Team"
-msgstr "User's from Task Team"
+msgstr "Time da tarefa"
 
 #. module: tko_project_task_actions_assign_team
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_task_action_line_user_ids
