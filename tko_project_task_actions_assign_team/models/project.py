@@ -9,7 +9,7 @@ class ProjectProject(models.Model):
     team_id = fields.Many2one('project.team', u'Team')
     user_id_domain = fields.Selection([('nr', _('No Restriction')),
                                        ('pt', _(u"User's from Project Team")),
-                                       ('at', _(u"User's from Action Line Team")),
+                                       ('at', _(u"User's from Action's Team")),
                                        ('tt', _(u"User's from Task Team")),
                                        ], default='nr',
                                       string=u'Assigned To Restriction',
