@@ -1,2 +1,1 @@
 # tko-project
-docker trigger
