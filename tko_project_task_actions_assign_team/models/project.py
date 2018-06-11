@@ -9,16 +9,11 @@ class ProjectProject(models.Model):
     team_id = fields.Many2one('project.team', u'Team')
     user_id_domain = fields.Selection([('nr', _('No Restriction')),
                                        ('pt', _(u"User's from Project Team")),
-                                       ('at', _(u"User's from Action's Team")),
+                                       ('at', _(u"User's from Action Line Team")),
                                        ('tt', _(u"User's from Task Team")),
                                        ], default='nr',
                                       string=u'Assigned To Restriction',
                                       help=u'This will restrict Assigned To in action lines basedon selection')
-
-# Make Team (user_ids non-readonly in tasks because we allow user to apply domain"
-class ProjectTask(models.Model):
-    _inherit = 'project.task'
-    user_ids = fields.Many2many('res.users', 'project_task_team_rel', 'task_id', 'team_id', string='Team')
 
 
 class ProjectTaskType(models.Model):
