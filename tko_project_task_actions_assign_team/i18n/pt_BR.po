@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+pro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-08 17:59+0000\n"
-"PO-Revision-Date: 2018-06-08 17:59+0000\n"
+"POT-Creation-Date: 2018-06-14 19:04+0000\n"
+"PO-Revision-Date: 2018-06-14 19:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,17 @@ msgstr ""
 #. module: tko_project_task_actions_assign_team
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_project_user_id_domain
 msgid "Assigned To Restriction"
-msgstr "Assigned To Restriction"
+msgstr "Restrição do responsável"
+
+#. module: tko_project_task_actions_assign_team
+#: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_team_type
+msgid "Assigned to seleciton on action lines"
+msgstr "Seleção de responsável nas linhas de ações"
 
 #. module: tko_project_task_actions_assign_team
 #: selection:project.team,type:0
-msgid "Bucket"
-msgstr "Bucket"
+msgid "Auto"
+msgstr "Automática"
 
 #. module: tko_project_task_actions_assign_team
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_team_create_uid
@@ -66,6 +71,11 @@ msgid "Manager"
 msgstr "Manager"
 
 #. module: tko_project_task_actions_assign_team
+#: selection:project.team,type:0
+msgid "Mannual"
+msgstr "Manual"
+
+#. module: tko_project_task_actions_assign_team
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_team_name
 msgid "Name"
 msgstr "Nome"
@@ -92,7 +102,7 @@ msgstr "Projeto"
 #: model:ir.ui.view,arch_db:tko_project_task_actions_assign_team.project_team_form
 #: model:ir.ui.view,arch_db:tko_project_task_actions_assign_team.project_team_tree
 msgid "Project Team"
-msgstr "Project Team"
+msgstr "Projeto Time"
 
 #. module: tko_project_task_actions_assign_team
 #: model:ir.ui.menu,name:tko_project_task_actions_assign_team.project_team_action_menu
@@ -100,18 +110,19 @@ msgid "Project Teams"
 msgstr "Project Teams"
 
 #. module: tko_project_task_actions_assign_team
-#: selection:project.team,type:0
-msgid "Prorate"
-msgstr "Prorate"
+#: model:ir.model,name:tko_project_task_actions_assign_team.model_project_task
+msgid "Task"
+msgstr "Tarefa"
 
 #. module: tko_project_task_actions_assign_team
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_action_line_wizard_team_id
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_project_team_id
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_task_action_line_team_id
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_task_action_team_id
+#: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_task_project_user_ids
 #: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_task_type_team_id
 msgid "Team"
-msgstr "Team"
+msgstr "Time"
 
 #. module: tko_project_task_actions_assign_team
 #: model:ir.model.fields,help:tko_project_task_actions_assign_team.field_project_project_user_id_domain
@@ -119,16 +130,11 @@ msgid "This will restrict Assigned To in action lines basedon selection"
 msgstr "This will restrict Assigned To in action lines basedon selection"
 
 #. module: tko_project_task_actions_assign_team
-#: model:ir.model.fields,field_description:tko_project_task_actions_assign_team.field_project_team_type
-msgid "Type"
-msgstr "Tipo"
-
-#. module: tko_project_task_actions_assign_team
 #: code:addons/tko_project_task_actions_assign_team/models/project.py:12
 #: selection:project.project,user_id_domain:0
 #, python-format
-msgid "User's from Action's Team"
-msgstr "Time das ações"
+msgid "User's from Action Line Team"
+msgstr "User's from Action Line Team"
 
 #. module: tko_project_task_actions_assign_team
 #: code:addons/tko_project_task_actions_assign_team/models/project.py:11
