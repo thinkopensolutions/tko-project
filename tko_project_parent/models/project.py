@@ -45,6 +45,6 @@ class ProjectProject(models.Model):
             res = super(ProjectProject, record).write(vals)
             if record.analytic_account_id and record.parent_id:
                 #record.analytic_account_id.parent_id = record.parent_id.analytic_account_id.id
-                self.env.cr.execute("update account_analytic_account set parent_id = %s" %record.parent_id.analytic_account_id.id)
+                self.env.cr.execute("update account_analytic_account set parent_id = %s where id = %s" %(record.parent_id.analytic_account_id.id, record.analytic_account_id.id))
         return res
 
