@@ -54,4 +54,20 @@
         </field>
     </record>
 
+    <!-- Task -->
+    <record id="tko_project_task_action_assign_task_inherit" model="ir.ui.view">
+        <field name="name">project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="tko_project_task_actions_assign.view_task_form_inherit_envolved_users"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_ids']" position="attributes">
+                <attribute name="domain">[('id','in',project_user_ids and project_user_ids[0][2])]</attribute>
+            </xpath>
+            <field name="user_ids" position="after">
+                <field name="project_user_ids" widget="many2many_tags" invisible="1"/>
+            </field>
+
+        </field>
+    </record>
+
 </odoo>

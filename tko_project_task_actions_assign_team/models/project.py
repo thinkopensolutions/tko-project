@@ -16,6 +16,22 @@ class ProjectProject(models.Model):
                                       help=u'This will restrict Assigned To in action lines basedon selection')
 
 
+class ProjectTask(models.Model):
+    _inherit = 'project.task'
+
+    project_user_ids = fields.Many2many('res.users', 'project_task_team_rel', 'task_id', 'team_id', compute='get_users', string='Team')
+
+    # set domain if project has team
+    @api.one
+    @api.depends('project_id','project_id.team_id')
+    def get_users(self):
+        if self.project_id and self.project_id.team_id:
+            users = self.project_id.team_id.user_ids
+        else:
+            users = self.env['res.users'].search([])
+        self.project_user_ids = [(6, 0, users.ids)]
+
+
 class ProjectTaskType(models.Model):
     _inherit = 'task.type'
 
@@ -85,10 +101,16 @@ class ProjectTaskActionLine(models.Model):
         self.onchange_team()
 
     @api.one
-    @api.depends('team_id', 'action_id')
+    @api.depends('action_id')
     def onchange_team(self):
+        team_id = self.get_team_id()
+        if not team_id:
+            team_id = self.task_id and self.task_id.task_type_id and self.task_id.task_type_id.team_id \
+                      and self.task_id.task_type_id.team_id.id or False
+        if not team_id:
+            team_id = self.task_id and self.task_id.project_id and self.task_id.project_id.team_id or False
         if self.team_id:
-            # self.team_id = self.team_id.id
+            self.team_id = self.team_id.id
             if self.team_id.type == 'b':
                 self.user_id = False
             else:
