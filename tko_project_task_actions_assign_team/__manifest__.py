@@ -2,9 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Project Task Actions Assign',
+    'name': 'Project Task Actions Assign Teams',
     'summary': '',
-    'description': 'Assign users to actions. In configuration set task_id.user_id or task_id.project_id.user_id to get dynamic assigned users.',
+    'description': 'Manage teams on projects, tasks, and actions, '
+                   'set assigned to on action lines',
     'author': 'TKO',
     'category': 'Project',
     'license': 'AGPL-3',
